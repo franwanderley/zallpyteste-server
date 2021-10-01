@@ -1,11 +1,13 @@
 package com.challenge.javaspringboot.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import com.challenge.javaspringboot.domain.enums.TypeCharge;
 
@@ -20,15 +22,25 @@ public class User implements Serializable{
    private Integer charge;
    private String email;
    private String password;
+   @ManyToMany(mappedBy = "users")
+   private List<Project> projects; 
    
-   public User(Integer id, String name, TypeCharge charge, String email, String password) {
+   public User(Integer id, String name, TypeCharge charge, String email, String password, List<Project> projects) {
       this.id = id;
       this.name = name;
       this.charge = charge.getCod();
       this.email = email;
+      this.projects = projects;
       this.password = password;
    }
    public User() {
+   }
+
+   public List<Project> getProjects() {
+      return projects;
+   }
+   public void setProject(List<Project> projects) {
+      this.projects = projects;
    }
    
    public Integer getId() {
