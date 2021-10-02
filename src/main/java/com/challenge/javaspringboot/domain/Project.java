@@ -1,11 +1,16 @@
 package com.challenge.javaspringboot.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Project implements Serializable {
@@ -16,13 +21,28 @@ public class Project implements Serializable {
    private Integer id;
    private String name;
    private String description;
+   @ManyToMany
+   @JoinTable(
+      name = "USER_PROJECT",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "project_id")
+   )
+   private List<User> users = new ArrayList<User>();
 
-   public Project(Integer id, String name, String description) {
+   public Project(Integer id, String name, String description, List<User> users) {
       this.id = id;
       this.name = name;
       this.description = description;
+      this.users = users;
    }
    public Project() {
+   }
+
+   public List<User> getUsers() {
+      return users;
+   }
+   public void setUsers(List<User> users) {
+      this.users = users;
    }
 
    public Integer getId() {
