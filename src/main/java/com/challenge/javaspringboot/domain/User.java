@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.challenge.javaspringboot.domain.enums.TypeCharge;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User implements Serializable{
@@ -23,6 +24,7 @@ public class User implements Serializable{
    private String email;
    private String password;
    @ManyToMany(mappedBy = "users")
+   @JsonIgnore
    private List<Project> projects; 
    
    public User(Integer id, String name, TypeCharge charge, String email, String password, List<Project> projects) {
