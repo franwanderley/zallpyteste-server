@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Project implements Serializable {
@@ -28,16 +31,26 @@ public class Project implements Serializable {
       inverseJoinColumns = @JoinColumn(name = "project_id")
    )
    private List<User> users = new ArrayList<User>();
+   @JsonIgnore
+   @OneToMany(mappedBy = "project")
+   private List<HoursWork> hours = new ArrayList<HoursWork>();
 
-   public Project(Integer id, String name, String description, List<User> users) {
+   public Project(Integer id, String name, String description, List<User> users, List<HoursWork> hours) {
       this.id = id;
       this.name = name;
       this.description = description;
       this.users = users;
+      this.hours = hours;
    }
    public Project() {
    }
-
+   
+   public List<HoursWork> getHours() {
+      return hours;
+   }
+   public void setHours(List<HoursWork> hours) {
+      this.hours = hours;
+   }
    public List<User> getUsers() {
       return users;
    }
