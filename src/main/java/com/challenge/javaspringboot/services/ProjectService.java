@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.challenge.javaspringboot.domain.Project;
 import com.challenge.javaspringboot.repository.ProjectRepository;
+import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,9 @@ public class ProjectService {
 
    public Project findById(Integer id){
       Optional<Project> obj = ProjectRepo.findById(id);
-      return obj.orElseThrow();
+      return obj.orElseThrow(() -> 
+      new ObjectNotFoundException("objeto não encontrado "+ Project.class.getName())
+      );
    }
 
    public Integer insert(Project project){
