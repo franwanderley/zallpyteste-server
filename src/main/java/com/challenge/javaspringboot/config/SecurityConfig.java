@@ -1,6 +1,7 @@
 package com.challenge.javaspringboot.config;
 
 import com.challenge.javaspringboot.security.JWTAthenticationFilter;
+import com.challenge.javaspringboot.security.JWTAuthorizationFilter;
 import com.challenge.javaspringboot.security.JWTUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
       )
       .permitAll().anyRequest().authenticated();
       http.addFilter(new JWTAthenticationFilter(authenticationManager(), jwtUtil));
+      http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
       http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
    }
 

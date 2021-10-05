@@ -53,13 +53,5 @@ public class UserResources {
       userServices.delete(id);
       return ResponseEntity.noContent().build();
    }
-   @RequestMapping(value = "/login", method = RequestMethod.POST)
-   public ResponseEntity<User> login(@RequestBody User user){
-      User userResponse = userServices.login(user.getEmail());
-      if(userResponse.getPassword().equals(user.getPassword()))
-         return ResponseEntity.ok().body(userResponse);
-      else
-         return ResponseEntity.status(403).build();
-   }
    
 }
