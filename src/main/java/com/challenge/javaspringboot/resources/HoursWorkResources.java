@@ -50,6 +50,11 @@ public class HoursWorkResources {
       service.delete(id);
       return ResponseEntity.noContent().build();
    }
+   @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+   public ResponseEntity<List<HoursWork>> findHoursByUser(@PathVariable Integer id){
+      List<HoursWork> hours = service.findHoursByUser(id);
+      return ResponseEntity.ok().body(hours);   
+   }
 
    
 }
