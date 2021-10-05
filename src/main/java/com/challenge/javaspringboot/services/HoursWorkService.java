@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.challenge.javaspringboot.domain.HoursWork;
 import com.challenge.javaspringboot.repository.HoursWorkRepository;
+import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,9 @@ public class HoursWorkService {
 
    public HoursWork findById(Integer id) {
       Optional<HoursWork> obj = repo.findById(id);
-      return obj.orElseThrow();
+      return obj.orElseThrow(() -> 
+         new ObjectNotFoundException("objeto não encontrado "+ HoursWork.class.getName())
+      );
    }
 
    public void delete(Integer id){

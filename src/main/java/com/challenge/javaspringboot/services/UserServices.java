@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.challenge.javaspringboot.domain.User;
 import com.challenge.javaspringboot.repository.UserRepository;
+import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +24,9 @@ public class UserServices {
 
    public User findById(Integer id){
       Optional<User> obj = userRepo.findById(id);
-      return obj.orElseThrow();
+      return obj.orElseThrow(() -> 
+      new ObjectNotFoundException("objeto não encontrado "+ User.class.getName())
+      );
    }
 
    public Integer insert(User user){
