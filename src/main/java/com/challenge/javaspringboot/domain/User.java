@@ -1,6 +1,7 @@
 package com.challenge.javaspringboot.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.challenge.javaspringboot.domain.enums.TypeCharge;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,10 +25,13 @@ public class User implements Serializable{
    private Integer charge;
    private String email;
    private String password;
-   @ManyToMany(mappedBy = "users")
    @JsonIgnore
-   private List<Project> projects; 
-   
+   @ManyToMany(mappedBy = "users")
+   private List<Project> projects = new ArrayList<Project>();
+   @JsonIgnore
+   @OneToMany(mappedBy = "user")
+   private List<HoursWork> hours = new ArrayList<HoursWork>();
+
    public User(Integer id, String name, TypeCharge charge, String email, String password, List<Project> projects) {
       this.id = id;
       this.name = name;
@@ -38,6 +43,12 @@ public class User implements Serializable{
    public User() {
    }
 
+   public List<HoursWork> getHours() {
+      return hours;
+   }
+   public void setHours(List<HoursWork> hours) {
+      this.hours = hours;
+   }
    public List<Project> getProjects() {
       return projects;
    }
