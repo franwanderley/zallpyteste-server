@@ -7,12 +7,15 @@ import com.challenge.javaspringboot.domain.User;
 import com.challenge.javaspringboot.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServices {
    @Autowired
    public UserRepository userRepo;
+   @Autowired
+   public BCryptPasswordEncoder bcrypt;
 
    public List<User> findAll(){
       return userRepo.findAll();
@@ -25,6 +28,7 @@ public class UserServices {
 
    public Integer insert(User user){
       user.setId(null);
+      user.setPassword( bcrypt.encode(user.getPassword()) );
       User userResponse = userRepo.save(user);
       return userResponse.getId();
    }
@@ -32,6 +36,7 @@ public class UserServices {
    public void update(Integer id, User user){
       findById(id);
       user.setId(id);
+      user.setPassword( bcrypt.encode(user.getPassword()) );
       userRepo.save(user);
    }
 
