@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.challenge.javaspringboot.domain.User;
+import com.challenge.javaspringboot.domain.enums.TypeCharge;
 import com.challenge.javaspringboot.repository.UserRepository;
+import com.challenge.javaspringboot.security.UserSS;
+import com.challenge.javaspringboot.services.exception.AuthorizationException;
 import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +22,23 @@ public class UserServices {
    @Autowired
    public BCryptPasswordEncoder bcrypt;
 
+   public static UserSS authenticated() {
+      try{
+         return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      }catch(Exception e){
+         return null;
+      }
+   }
+
    public List<User> findAll(){
       return userRepo.findAll();
    }
 
    public User findById(Integer id){
+      UserSS user = authenticated();
+      if( (user == null || !user.hasRole(TypeCharge.ADMINISTRADOR)) && !id.equals(user.getId()) ){
+         throw new AuthorizationException("Acesso Negado!");
+      }
       Optional<User> obj = userRepo.findById(id);
       return obj.orElseThrow(() -> 
       new ObjectNotFoundException("objeto não encontrado "+ User.class.getName())
