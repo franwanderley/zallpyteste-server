@@ -42,4 +42,8 @@ public class HoursWorkService {
       HoursWork hours = findById(id);
       repo.delete(hours);
    }
+
+   public List<HoursWork> findHoursByUser(Integer id){
+      return repo.findByUser(id);
+   }
 }
