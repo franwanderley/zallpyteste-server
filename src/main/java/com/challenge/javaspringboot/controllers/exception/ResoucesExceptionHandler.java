@@ -1,7 +1,8 @@
-package com.challenge.javaspringboot.resources.exception;
+package com.challenge.javaspringboot.controllers.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.challenge.javaspringboot.services.exception.AuthorizationException;
 import com.challenge.javaspringboot.services.exception.DataIntegrityException;
 import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
@@ -22,5 +23,10 @@ public class ResoucesExceptionHandler {
    public ResponseEntity<StandartError> DataIntegrity(DataIntegrityException e, HttpServletRequest request){
       StandartError err = new StandartError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis() );
       return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(err);
+   }
+   @ExceptionHandler(AuthorizationException.class)
+   public ResponseEntity<StandartError> Authorization(AuthorizationException e, HttpServletRequest request){
+      StandartError err = new StandartError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis() );
+      return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(err);
    }
 }

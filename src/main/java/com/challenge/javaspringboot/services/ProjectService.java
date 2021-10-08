@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.challenge.javaspringboot.domain.Project;
+import com.challenge.javaspringboot.domain.User;
+import com.challenge.javaspringboot.domain.enums.TypeCharge;
 import com.challenge.javaspringboot.repository.ProjectRepository;
+import com.challenge.javaspringboot.security.UserSS;
+import com.challenge.javaspringboot.services.exception.AuthorizationException;
 import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +19,20 @@ public class ProjectService {
    
    @Autowired
    private ProjectRepository ProjectRepo;
+   @Autowired
+   private UserServices userService;
 
    public List<Project> findAll(){
-      return ProjectRepo.findAll();
+      UserSS userSS = UserServices.authenticated();
+      if(userSS == null){
+         throw new AuthorizationException("Acesso Negado!");
+      }
+      if(userSS.hasRole(TypeCharge.ADMINISTRADOR)){
+         return ProjectRepo.findAll();
+      }
+      User user = userService.findById(userSS.getId());
+
+      return ProjectRepo.findByUsers(user);
    }
 
    public Project findById(Integer id){

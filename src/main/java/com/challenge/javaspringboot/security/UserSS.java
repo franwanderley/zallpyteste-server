@@ -2,8 +2,10 @@ package com.challenge.javaspringboot.security;
 
 import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.challenge.javaspringboot.domain.enums.TypeCharge;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserSS implements UserDetails{
@@ -54,6 +56,10 @@ public class UserSS implements UserDetails{
   }
   @Override
   public boolean isEnabled(){
-   return true;
+      return true;
   }
+
+   public boolean hasRole(TypeCharge typeCharge) {
+      return getAuthorities().contains(new SimpleGrantedAuthority(typeCharge.getDescricao()));
+   }
 }

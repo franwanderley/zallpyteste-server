@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.challenge.javaspringboot.domain.HoursWork;
+import com.challenge.javaspringboot.domain.enums.TypeCharge;
 import com.challenge.javaspringboot.repository.HoursWorkRepository;
+import com.challenge.javaspringboot.security.UserSS;
+import com.challenge.javaspringboot.services.exception.AuthorizationException;
 import com.challenge.javaspringboot.services.exception.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,10 @@ public class HoursWorkService {
 
    public Integer insert(HoursWork hours){
       hours.setId(null);
+      UserSS user = UserServices.authenticated();
+      if(user.getId() != hours.getUser().getId())
+         throw new AuthorizationException("Acesso Invalido!");
+
       HoursWork hoursCreated = repo.save(hours);
       return hoursCreated.getId();
    }
@@ -43,7 +50,12 @@ public class HoursWorkService {
       repo.delete(hours);
    }
 
-   public List<HoursWork> findHoursByUser(Integer id){
-      return repo.findByUser(id);
+   public List<HoursWork> findByUserAndProject(Integer idProject){
+      UserSS user = UserServices.authenticated();
+      if(user.hasRole(TypeCharge.ADMINISTRADOR)){
+         return repo.findByProject(idProject);
+      }
+
+      return repo.findByUserAndProject(idProject, user.getId());
    }
 }

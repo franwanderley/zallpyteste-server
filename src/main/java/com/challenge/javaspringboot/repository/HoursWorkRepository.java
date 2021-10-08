@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HoursWorkRepository extends JpaRepository<HoursWork, Integer> {
    
-   @Query("SELECT DISTINCT obj FROM HoursWork obj WHERE obj.user.id = :id")
-   public List<HoursWork> findByUser(@Param("id") Integer id);
+   @Query("SELECT DISTINCT obj FROM HoursWork obj WHERE obj.user.id = :idUser AND obj.project.id = :idProject")
+   public List<HoursWork> findByUserAndProject(@Param("idProject") Integer idProject, @Param("idUser") Integer idUser);
+   
+   @Query("SELECT DISTINCT obj FROM HoursWork obj WHERE obj.project.id = :idProject")
+   public List<HoursWork> findByProject(@Param("idProject") Integer idProject);
 }
