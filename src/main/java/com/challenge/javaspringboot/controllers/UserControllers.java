@@ -1,4 +1,4 @@
-package com.challenge.javaspringboot.resources;
+package com.challenge.javaspringboot.controllers;
 
 import java.net.URI;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "users")
-public class UserResources {
+public class UserControllers {
    @Autowired
    public UserServices userServices;
 

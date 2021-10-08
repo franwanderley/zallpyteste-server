@@ -1,4 +1,4 @@
-package com.challenge.javaspringboot.resources.exception;
+package com.challenge.javaspringboot.controllers.exception;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,4 +1,4 @@
-package com.challenge.javaspringboot.resources;
+package com.challenge.javaspringboot.controllers;
 
 import java.net.URI;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "projects")
-public class ProjectResources {
+public class ProjectControllers {
    @Autowired
    ProjectService projectService;
 

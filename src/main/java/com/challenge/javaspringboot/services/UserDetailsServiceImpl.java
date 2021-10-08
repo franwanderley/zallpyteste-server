@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          user.getId(), 
          user.getEmail(), 
          user.getPassword(),
-         Arrays.asList((new SimpleGrantedAuthority(user.getCharge().toString())))
+         Arrays.asList((new SimpleGrantedAuthority(user.getCharge().getDescricao())))
       );   
    }
 }

@@ -1,4 +1,4 @@
-package com.challenge.javaspringboot.resources;
+package com.challenge.javaspringboot.controllers;
 
 import java.net.URI;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "hours")
-public class HoursWorkResources {
+public class HoursWorkController {
    @Autowired
    private HoursWorkService service;
 
@@ -50,9 +50,9 @@ public class HoursWorkResources {
       service.delete(id);
       return ResponseEntity.noContent().build();
    }
-   @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+   @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
    public ResponseEntity<List<HoursWork>> findHoursByUser(@PathVariable Integer id){
-      List<HoursWork> hours = service.findHoursByUser(id);
+      List<HoursWork> hours = service.findByUserAndProject(id);
       return ResponseEntity.ok().body(hours);   
    }
 

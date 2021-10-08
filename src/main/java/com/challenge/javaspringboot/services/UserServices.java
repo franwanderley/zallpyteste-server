@@ -36,7 +36,7 @@ public class UserServices {
 
    public User findById(Integer id){
       UserSS user = authenticated();
-      if( (user == null || !user.hasRole(TypeCharge.ADMINISTRADOR)) && !id.equals(user.getId()) ){
+      if( !user.hasRole(TypeCharge.ADMINISTRADOR) && !id.equals(user.getId()) ){
          throw new AuthorizationException("Acesso Negado!");
       }
       Optional<User> obj = userRepo.findById(id);
