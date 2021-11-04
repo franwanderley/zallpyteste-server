@@ -3,6 +3,7 @@ package com.challenge.javaspringboot.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class HoursWork implements Serializable{
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
    @JsonFormat(pattern = "dd/MM/yyyy")
+   @Column(unique = true)
    private Date date;
    private Integer hours;
    @ManyToOne
