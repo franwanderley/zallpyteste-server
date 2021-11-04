@@ -1,5 +1,6 @@
 package com.challenge.javaspringboot.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,10 @@ public class UserServices {
    }
 
    public List<User> findAll(){
+      UserSS user = authenticated();
+      if(!user.hasRole(TypeCharge.ADMINISTRADOR)){
+         return Arrays.asList(findById(user.getId()));
+      }
       return userRepo.findAll();
    }
 
@@ -41,7 +46,7 @@ public class UserServices {
       }
       Optional<User> obj = userRepo.findById(id);
       return obj.orElseThrow(() -> 
-      new ObjectNotFoundException("objeto não encontrado "+ User.class.getName())
+         new ObjectNotFoundException("objeto não encontrado "+ User.class.getName())
       );
    }
 
