@@ -23,11 +23,11 @@ public class AuthService {
 
    public void sendNewPassword(String email){
       Optional<User> obj = repo.findByEmail(email);
+      System.out.println("Email send "+ email);
       User user = obj.orElseThrow(() -> 
       new ObjectNotFoundException("email " +email+ " não encontrado!")
       );
-      System.out.println("Email send "+ user.getName());
-      mail.sendConfirmationNewPassword(user);
+      mail.sendNewPasswordHtmlEmail(user);
 
    }
 

@@ -1,5 +1,6 @@
 package com.challenge.javaspringboot.controllers;
 
+import com.challenge.javaspringboot.domain.User;
 import com.challenge.javaspringboot.services.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class AuthControllers {
    private AuthService service;
 
    @RequestMapping(value="/forgot-password", method=RequestMethod.POST)
-   public ResponseEntity<Void> sendEmail(@RequestBody String email){
-      service.sendNewPassword("wanderley3101@gmail.com");
+   public ResponseEntity<Void> sendEmail(@RequestBody User user){
+      service.sendNewPassword(user.getEmail());
       return ResponseEntity.noContent().build();
    }
    @RequestMapping(value="/new-password/{token}", method=RequestMethod.POST)
