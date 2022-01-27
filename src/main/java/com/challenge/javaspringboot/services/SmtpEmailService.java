@@ -63,7 +63,7 @@ public class SmtpEmailService{
 
    private String htmlFromTemplateNewPassword(User user, String token){
       Context context = new Context();
-      String url = urlCliente + token;
+      String url = urlCliente +'/'+ token;
       context.setVariable("url", url);
       context.setVariable("name", user.getName());
       return templateEngine.process("email/NewPassword", context);

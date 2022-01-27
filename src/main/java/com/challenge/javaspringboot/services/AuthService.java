@@ -33,14 +33,18 @@ public class AuthService {
 
    public void saveNewPassword(String password, String token){
       String passCript = bcrypt.encode(password);
-      String email = jwtUtil.getUsername(token);
-      Optional<User> obj = repo.findByEmail(email);
-      User user = obj.orElseThrow(() -> 
-         new ObjectNotFoundException("email " +email+ " não encontrado!")
-      );
+      if(jwtUtil.tokenValidate(token)){
+         String email = jwtUtil.getUsername(token);
+         System.out.println("Email new password " + email);
+         Optional<User> obj = repo.findByEmail(email);
+         User user = obj.orElseThrow(() -> 
+            new ObjectNotFoundException("email " + email + " não encontrado!")
+         );
+         user.setPassword(passCript);
+         repo.save(user);
+      } else
+         new ObjectNotFoundException("token" + token + "não encontrado!");
 
-      user.setPassword(passCript);
-      repo.save(user);
    }
    
 }
