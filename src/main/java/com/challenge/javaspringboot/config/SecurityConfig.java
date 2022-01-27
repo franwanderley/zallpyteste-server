@@ -31,7 +31,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter{
    public void configure(HttpSecurity http) throws Exception {
       http.cors().and().csrf().disable();
       http.authorizeRequests().antMatchers(
-         HttpMethod.GET, "/projects/**", "/hours/**"
+         HttpMethod.POST, "/auth/**" 
       )
       .permitAll().anyRequest().authenticated();
       http.addFilter(new JWTAthenticationFilter(authenticationManager(), jwtUtil));
