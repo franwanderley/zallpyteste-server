@@ -1,6 +1,7 @@
 package com.challenge.javaspringboot.controllers;
 
 import com.challenge.javaspringboot.domain.User;
+import com.challenge.javaspringboot.dto.NewPasswordDTO;
 import com.challenge.javaspringboot.services.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,9 @@ public class AuthControllers {
       return ResponseEntity.noContent().build();
    }
    @RequestMapping(value="/new-password/{token}", method=RequestMethod.POST)
-   public ResponseEntity<Void> newPassword(@RequestBody String password, @PathVariable String token) {
-      service.saveNewPassword(password, token);
+   public ResponseEntity<Void> newPassword(@RequestBody NewPasswordDTO newPassword, @PathVariable String token) {
+      service.saveNewPassword(newPassword, token);
+      //Criar um dto para userNewPassword
       return ResponseEntity.noContent().build();
    }
 }
